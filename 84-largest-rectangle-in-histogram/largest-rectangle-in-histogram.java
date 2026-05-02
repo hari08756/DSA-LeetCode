@@ -1,45 +1,42 @@
 class Solution {
-    public int largestRectangleArea(int[] heights) {       
+    public int largestRectangleArea(int[] heights) {
         int n = heights.length;
-        int[] leftSmaller = new int[n];
-        int[] rightSmaller = new int[n];
-        Stack<Integer> stack = new Stack<>();
-        
-        // Find nearest smaller element on the left
-        for (int i = 0; i < n; i++) {
-            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
-                stack.pop();
+        int [] preSmall = new int[n];
+        int [] nextSmall = new int[n];
+        Stack<Integer> st = new Stack<>();
+        preSmall[0] = -1;
+        nextSmall[n-1] = n;
+        st.push(0);
+        for(int i = 1; i<n; i++){
+            while(!st.isEmpty() && heights[st.peek()] >= heights[i]){
+                st.pop();
             }
-            if (stack.isEmpty()) {
-                leftSmaller[i] = -1;
-            } else {
-                leftSmaller[i] = stack.peek();
+            if(st.isEmpty()){
+                preSmall[i] = -1;
+            }else{
+                preSmall[i] = st.peek();
             }
-            stack.push(i);
+            st.push(i);
         }
-        
-        stack.clear();
-        
-        // Find nearest smaller element on the right
-        for (int i = n - 1; i >= 0; i--) {
-            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
-                stack.pop();
-            }
-            if (stack.isEmpty()) {
-                rightSmaller[i] = n;
-            } else {
-                rightSmaller[i] = stack.peek();
-            }
-            stack.push(i);
+        while(!st.isEmpty()){
+            st.pop();
         }
-        
+        st.push(n-1);
+        for(int i = n-2; i>=0; i--){
+            while(!st.isEmpty() && heights[st.peek()] >= heights[i]){
+                st.pop();
+            }
+            if(st.isEmpty()){
+                nextSmall[i] = n;
+            }else{
+                nextSmall[i] = st.peek();
+            }
+            st.push(i);
+        }
         int maxArea = 0;
-        for (int i = 0; i < n; i++) {
-            int width = rightSmaller[i] - leftSmaller[i] - 1;
-            maxArea = Math.max(maxArea, width * heights[i]);
+        for(int i = 0; i<n; i++){
+            maxArea = Math.max(maxArea, heights[i] * (nextSmall[i] - preSmall[i] - 1));
         }
-        
         return maxArea;
-        
     }
 }
