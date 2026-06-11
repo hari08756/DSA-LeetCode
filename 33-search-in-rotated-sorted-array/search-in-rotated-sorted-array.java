@@ -1,9 +1,7 @@
 class Solution {
     public int search(int[] nums, int target) {
-        int count =0;
-        for(int num : nums){
-            if(target == num) return count;
-            count++;
+        for(int i = 0; i<nums.length; i++){
+            if(nums[i] == target) return i;
         }
         return -1;
     }
