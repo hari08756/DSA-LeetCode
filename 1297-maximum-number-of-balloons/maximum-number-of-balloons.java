@@ -11,7 +11,6 @@ class Solution {
         if(map.containsKey('n')) n = map.get('n');
         if(map.containsKey('o')) o = map.get('o') / 2;
 
-        int maxText = Math.min(b,Math.min(Math.min(a,l), Math.min(n,o)));
-        return maxText;
+        return Math.min(b,Math.min(Math.min(a,l), Math.min(n,o)));
     }
 }
