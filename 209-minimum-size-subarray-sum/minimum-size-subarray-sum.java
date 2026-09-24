@@ -1,16 +1,16 @@
 class Solution {
     public int minSubArrayLen(int target, int[] nums) {
-        int n = nums.length;
-        int left = 0;
-        int minLeng = Integer.MAX_VALUE;
         int sum = 0;
-        for(int right = 0; right<n; right++){
+        int left = 0;
+        int n = nums.length;
+        int minWindSize = n + 1;
+        for(int right = 0; right < n; right++){
             sum += nums[right];
-            while(sum>=target){
-                minLeng = Math.min(minLeng, right - left+1);
+            while(sum >= target){
+                minWindSize = Math.min(minWindSize, right - left + 1);
                 sum -= nums[left++];
             }
         }
-        return minLeng == Integer.MAX_VALUE ? 0: minLeng;
+        return minWindSize != n + 1 ? minWindSize : 0;
     }
 }
